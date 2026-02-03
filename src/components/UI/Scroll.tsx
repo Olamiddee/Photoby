@@ -70,7 +70,7 @@ export default function ScrollLogoLines() {
   return (
     <div
       ref={containerRef}
-      className="relative overflow-hidden bg-white lg:translate-y-32"
+      className="relative overflow-hidden bg-white lg:translate-y-32 translate-y-20"
     >
       <div className="space-y-10 md:space-y-16 lg:space-y-20">
         <LogoMarquee logos={logosRow1} x={x1} className="grayscale" />

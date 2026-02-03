@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} antialiased flex flex-col gap-32 pb-999`}
+        className={`${inter.variable} antialiased flex flex-col gap-32`}
       >
         {/* <CustomCursor /> */}
         <Header />

@@ -4,6 +4,11 @@ import { motion } from "framer-motion"
 import SimpleCurtainReveal from "@/components/UI/ExpandableImage"
 import { Icon } from "@iconify/react"
 import ScrollLogoLines from "@/components/UI/Scroll"
+import Link from "next/link"
+import serviceData from "@/data/ServicesData"
+import ServiceCard from "@/components/cards/ServiceCard"
+import NewsCarousel from "@/components/UI/NewsCarousel"
+import Footer from "@/components/Footer"
 const date = new Date()
 const year = date.getFullYear()
 
@@ -35,11 +40,22 @@ const container = {
     },
   }
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,    
+        delayChildren: 0.2,      
+      },
+    },
+  }
+
 export default function Home() {
   return (
-    <div className="absolute top-2 right-0 left-0 bottom-2 flex flex-col space-y-32 ">
+    <div className="absolute top-2 right-0 left-0 bottom-2 flex flex-col space-y-20 lg:space-y-32">
 
-      <div className="translate-y-26 lg:translate-y-32 flex flex-col gap-4 lg:gap-18 px-4 lg:px-12">
+      <div className="translate-y-26 lg:translate-y-32 flex flex-col gap-4 lg:gap-18 px-4 lg:px-10.5">
         <div className="flex flex-col gap-4 lg:gap-8 relative">
           
           <div className="flex gap-2">
@@ -96,7 +112,7 @@ export default function Home() {
         />
       </div>
 
-      <section className="flex flex-col gap-8 translate-y-10 lg:gap-17.75 lg:translate-y-32 px-4 lg:px-12">
+      <section className="flex flex-col gap-8 translate-y-20 lg:gap-17.75 lg:translate-y-32 px-4 lg:px-10.5">
         <div className="flex items-center justify-between">
           <div className="flex gap-2 items-center">
             <div className="w-2 h-2 py-1.25 lg:w-4 lg:h-4 bg-black rounded-full" />
@@ -119,7 +135,7 @@ export default function Home() {
             </motion.h1>
           </div>
           <div>
-            <p className="font-semibold text-sm lg:text-[32px] text-black">(1.1)</p>
+            <p className="font-semibold text-lg lg:text-[32px] text-black">(1.1)</p>
           </div>
         </div>
 
@@ -146,11 +162,11 @@ export default function Home() {
               variants={fadeUpVariant}
               className="font-medium text-sm lg:text-lg text-black max-w-3xl mx-auto"
             >
-              Lorem ipsum dolor sit amet consectetur. Nunc lacus imperdiet adipiscing urna. Amet aenean ac faucibus varius curabitur consequat pellentesque morbi. Tincidunt eleifend morbi mauris nascetur porta vulputate. At egestas mi senectus nam aliquam vivamus. Egestas non sit pulvinar faucibus tincidunt at quis morbi tortor. Ultrices egestas rhoncus in justo massa consectetur est ut magna. Eget vitae duis a aliquam condimentum id non scelerisque.
+             We are a full-service photography agency delivering bold, high-impact visuals for brands, events, and editorial projects. Our team of photographers, art directors, and retouchers handles everything from concept and location scouting to studio shoots and post-production. With a focus on creative direction, technical precision, and fast delivery, we create market-ready imagery that elevates your story and drives results across digital, social, and print.
             </motion.p>
-            <button className="w-31 h-9.75 px-6 py-4 lg:w-45.75 lg:h-14.75 lg:px-12 lg:py-3.5 flex items-center gap-[2.22px] lg:gap-2.5 bg-black rounded-full">
+            <Link href="/about"  className="w-31 h-9.75 px-6 py-4 lg:w-45.75 lg:h-14.75 lg:px-12 lg:py-3.5 flex items-center gap-[2.22px] lg:gap-2.5 bg-black rounded-full">
               <p className="font-medium text-sm lg:text-base text-white">Learn more</p>
-            </button>
+            </Link>
           </div>
         </div>
       </section>
@@ -158,6 +174,116 @@ export default function Home() {
       <section>
         <ScrollLogoLines />
       </section>
+
+      <section className="translate-y-20 lg:translate-y-32 px-4 lg:px-10.5">
+        <div className="w-full border border-black" />
+      </section>
+
+      <section className="flex flex-col gap-8 lg:gap-16 translate-y-20 lg:translate-y-32 px-4 lg:px-10.5">
+
+        <div className="flex flex-col gap-8 lg:gap-12 mx-auto">
+
+          <div className="flex items-center justify-between">
+            <div className="flex gap-2 lg:gap-4 items-center">
+              <div className="w-2.5 h-2.5 py-1.25 lg:w-4 lg:h-4 bg-black rounded-full" />
+
+              <motion.h1
+                variants={container}
+                initial="hidden"
+                whileInView="visible"      
+                viewport={{ once: true }}
+                className="uppercase font-bold lg:font-semibold text-lg lg:text-[32px] text-black"
+              >
+                {"Services".split(" ").map((word, index) => (
+                  <motion.span
+                    variants={child}
+                    key={word + index}
+                    className="inline-block"
+                  >
+                    {word}
+                  </motion.span>
+                ))}
+              </motion.h1>
+            </div>
+
+            <div className="flex items-center gap-[5.33px] lg:gap-6">
+              <Link href="/services" className="flex items-center gap-[3.56px] lg:gap-4">
+                <span className="flex font-semibold text-sm">Explore services</span>
+                <Icon icon="solar:arrow-right-outline"  className="w-4 h-4 lg:w-6 lg:h-6" />
+              </Link>
+
+              <p className="font-semibold text-lg lg:text-[32px] text-black">(1.2)</p>
+            </div>
+          </div>
+
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }} 
+            className="grid space-y-8 md:grid-cols-2 lg:grid-cols-3 md:gap-6 md:space-y-0 mx-auto"
+          >
+            {serviceData.map((service, index) => (
+              <ServiceCard
+                key={index}
+                src={service.serviceIcon}
+                serviceName={service.serviceName}
+                content={service.content}
+              />
+            ))}
+          </motion.div>
+
+        </div>
+
+        <div>
+          <SimpleCurtainReveal 
+            src={"/images/serviceImage.svg"}
+            alt={"photoby_service_image"}
+            width="w-full"
+            height="h-[256px] lg:h-[680px]"
+          />
+        </div>
+
+        <div className="w-full border border-black my-5 lg:my-10 " />
+      </section>
+
+      <section className="flex flex-col gap-8 lg:gap-16 translate-y-12 lg:translate-y-32 px-4 lg:px-10.5">
+        <div className="flex flex-col gap-8 lg:gap-12">
+          <div className="flex items-center justify-between">
+            <div className="flex gap-2 lg:gap-4 items-center">
+              <div className="w-2.5 h-2.5 py-1.25 lg:w-4 lg:h-4 bg-black rounded-full" />
+
+              <motion.h1
+                variants={container}
+                initial="hidden"
+                whileInView="visible"      
+                viewport={{ once: true }}
+                className="uppercase font-bold lg:font-semibold text-lg lg:text-[32px] text-black"
+              >
+                {"FEATURE NEWS".split(" ").map((word, index) => (
+                  <motion.span
+                    variants={child}
+                    key={word + index}
+                    className="inline-block"
+                  >
+                    {word}
+                  </motion.span>
+                ))}
+              </motion.h1>
+            </div>
+
+            <div className="flex items-center gap-[5.33px] lg:gap-6">
+              <p className="font-semibold text-lg lg:text-[32px] text-black">(1.3)</p>
+            </div>
+          </div>
+
+          <NewsCarousel  />
+        </div>
+      </section>
+
+      <div className="mt-10 lg:mt-20">
+        <Footer />
+      </div>
     </div>
   )
 }

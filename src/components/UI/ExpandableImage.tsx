@@ -1,5 +1,11 @@
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+"use client"
+
+import { useRef } from "react"
+import { gsap } from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { useGSAP } from "@gsap/react"
+
+gsap.registerPlugin(ScrollTrigger)
 
 export default function SimpleCurtainReveal({
   src,
@@ -8,33 +14,60 @@ export default function SimpleCurtainReveal({
   height,
   curtainColor = "#f48c06",
 }: {
-  src: string;
-  alt: string;
-  width?: string;
-  height?: string;
-  curtainColor?: string;
+  src: string
+  alt: string
+  width?: string
+  height?: string
+  curtainColor?: string
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const containerRef = useRef<HTMLDivElement>(null)
+  const curtainRef = useRef<HTMLDivElement>(null)
+  const imageRef = useRef<HTMLImageElement>(null)
+
+  useGSAP(() => {
+    if (!containerRef.current || !curtainRef.current || !imageRef.current) return
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top 80%",
+        end: "bottom 20%",
+        once: true,
+        toggleActions: "play none none none",
+      },
+    })
+
+    tl.set(imageRef.current, { opacity: 1 }, 0)
+
+    tl.to(curtainRef.current, {
+      scaleX: 0,
+      duration: 0.8,
+      ease: "power3.out",
+      transformOrigin: "right center",
+    })
+  }, [])
 
   return (
-    <div ref={ref} className="relative w-full h-full overflow-hidden">
+    <div
+      ref={containerRef}
+      className="relative w-full overflow-hidden"
+      style={{ height: height || "100%" }}
+    >
       <img
+        ref={imageRef}
         src={src}
         alt={alt}
-        className={`${width ?? "w-full"} ${height ?? "h-full"} object-cover`}
+        className={`${width ?? "w-full"} ${height ?? "h-full"} object-cover opacity-0`}
       />
 
-      <motion.div
-        initial={{ scaleX: 1 }}
-        animate={isInView ? { scaleX: 0 } : { scaleX: 1 }}
-        transition={{
-          duration: 1.2,
-          ease: "easeOut",
+      <div
+        ref={curtainRef}
+        className="absolute inset-0 z-10"
+        style={{
+          backgroundColor: curtainColor,
+          transformOrigin: "right center",
         }}
-        className="absolute inset-0 origin-right z-10" 
-        style={{ backgroundColor: curtainColor }}
       />
     </div>
-  );
+  )
 }
