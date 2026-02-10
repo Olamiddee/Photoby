@@ -88,7 +88,7 @@ export default function NewsCarousel() {
         <button
           onClick={() => paginate(-1)} 
           disabled={!canGoPrev}
-          className={`flex items-center justify-center w-12 h-12 rounded-full border-2 border-black transition-all ${
+          className={`cursor-pointer flex items-center justify-center w-12 h-12 rounded-full border-2 border-black transition-all ${
             canGoPrev
               ? 'opacity-100 hover:bg-black/10'
               : 'opacity-30 cursor-not-allowed'
@@ -100,7 +100,7 @@ export default function NewsCarousel() {
         <button
           onClick={() => paginate(1)}
           disabled={!canGoNext}
-          className={`flex items-center justify-center w-12 h-12 rounded-full border-2 border-black transition-all ${
+          className={`cursor-pointer flex items-center justify-center w-12 h-12 rounded-full border-2 border-black transition-all ${
             canGoNext
               ? 'opacity-100 hover:bg-black/10'
               : 'opacity-30 cursor-not-allowed'

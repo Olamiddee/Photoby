@@ -122,26 +122,28 @@ export default function Header() {
               height={29}
             />
           </Link>
-          <nav className="lg:flex gap-8 items-center hidden">
-            {navLinks.map((link, index) => {
-              const isActive = pathname === link.href
-              return (
-                <Link
-                  href={link.href}
-                  key={index}
-                  className="relative text-sm font-medium text-black"
-                >
-                  <span>{link.name}</span>
-                  {isActive && (
-                    <div className="absolute -bottom-1.5 left-0 right-0 h-0.5 bg-gray-500 rounded-full" />
-                  )}
-                </Link>
-              )
-            })}
-          </nav>
+          
         </div>
 
-        <div className="flex items-center gap-2.75">
+        <nav className="lg:flex gap-8 items-center hidden">
+          {navLinks.map((link, index) => {
+            const isActive = pathname === link.href
+            return (
+              <Link
+                href={link.href}
+                key={index}
+                className="relative text-sm font-medium text-black"
+              >
+                <span>{link.name}</span>
+                {isActive && (
+                  <div className="absolute -bottom-1.5 left-0 right-0 h-0.5 bg-gray-500 rounded-full" />
+                )}
+              </Link>
+            )
+          })}
+        </nav>
+
+        {/* <div className="flex items-center gap-2.75">
           {socialIcons.map((social) => (
             <Link
               href={social.href}
@@ -151,7 +153,7 @@ export default function Header() {
               <Icon icon={social.icon} className="w-5 h-5 lg:w-6 lg:h-6" />
             </Link>
           ))}
-        </div>
+        </div> */}
 
         <MobileMenu />
       </div>

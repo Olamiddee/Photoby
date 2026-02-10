@@ -112,10 +112,13 @@ export default function Home() {
         />
       </div>
 
-      <section className="flex flex-col gap-8 translate-y-20 lg:gap-17.75 lg:translate-y-32 px-4 lg:px-10.5">
+      <div className="flex flex-col gap-8 lg:gap-17.75">
+
         <div className="flex items-center justify-between">
-          <div className="flex gap-2 items-center">
-            <div className="w-2 h-2 py-1.25 lg:w-4 lg:h-4 bg-black rounded-full" />
+
+          <div className="flex gap-2 lg:gap-4 items-center">
+            <div className="w-2 h-2 lg:w-4 lg:h-4 bg-black rounded-full" />
+
             <motion.h1
               variants={container}
               initial="hidden"
@@ -125,51 +128,55 @@ export default function Home() {
             >
               {"About".split(" ").map((word, index) => (
                 <motion.span
-                  variants={child}
-                  key={word + index}
-                  className="inline-block"
+                    variants={child}
+                    key={word + index}
+                    className="inline-block"
                 >
-                  {word}
+                  {word}&nbsp;
                 </motion.span>
               ))}
             </motion.h1>
           </div>
-          <div>
-            <p className="font-semibold text-lg lg:text-[32px] text-black">(1.1)</p>
-          </div>
+
+            <div>
+                <p className="font-semibold text-lg lg:text-[32px] text-black">(1.1)</p>
+            </div>
         </div>
 
-        <div className="grid space-y-4 lg:grid-cols-2 lg:space-x-34">
-          <div className="flex flex-col gap-4 lg:gap-8.75">
-            <div>
-              <img src='/images/brand2.svg' alt="photoby_brand_logo" className="w-[102.33px] h-5.5 lg:w-[458.97px] lg:h-25 object-contain" />
-            </div>
-            <div>
-              <SimpleCurtainReveal 
-                src={"/images/about.png"}
-                alt={"photoby_about_image"}
-                width="w-full lg:w-[666px]"
-                height="h-[96px] lg:h-[216px]"
-              />
-            </div>
-          </div>
+        <div className="flex flex-col gap-4 lg:gap-0 lg:flex-row justify-between items-center">
 
-          <div className="flex flex-col gap-6 lg:gap-7.25">
-            <motion.p
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
-              variants={fadeUpVariant}
-              className="font-medium text-sm lg:text-lg text-black max-w-3xl mx-auto"
-            >
-             We are a full-service photography agency delivering bold, high-impact visuals for brands, events, and editorial projects. Our team of photographers, art directors, and retouchers handles everything from concept and location scouting to studio shoots and post-production. With a focus on creative direction, technical precision, and fast delivery, we create market-ready imagery that elevates your story and drives results across digital, social, and print.
-            </motion.p>
-            <Link href="/about"  className="w-31 h-9.75 px-6 py-4 lg:w-45.75 lg:h-14.75 lg:px-12 lg:py-3.5 flex items-center gap-[2.22px] lg:gap-2.5 bg-black rounded-full">
-              <p className="font-medium text-sm lg:text-base text-white">Learn more</p>
-            </Link>
-          </div>
+            <div className="flex flex-col gap-4 lg:gap-8.75 w-full">
+                <div>
+                    <img src='/images/brand2.svg' alt="photoby_brand_logo" className="h-5.5 lg:h-25 object-contain" />
+                </div>
+                <div>
+                    <SimpleCurtainReveal 
+                        src={"/images/about.png"}
+                        alt={"photoby_about_image"}
+                        width="w-full lg:w-[666px]"
+                        height="h-[100px] lg:h-[216px]"
+                    />
+                </div>
+            </div>
+
+            <div className="flex flex-col gap-6 lg:gap-7.25">
+                <motion.p
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.2 }}
+                    variants={fadeUpVariant}
+                    className="font-medium text-sm lg:text-lg text-black max-w-4xl mx-auto"
+                >
+                    We are a full-service photography agency delivering bold, high-impact visuals for brands, events, and editorial projects. Our team of photographers, art directors, and retouchers handles everything from concept and location scouting to studio shoots and post-production. With a focus on creative direction, technical precision, and fast delivery, we create market-ready imagery that elevates your story and drives results across digital, social, and print.
+                </motion.p>
+                
+                <Link href="/about"  className="w-31 h-9.75 px-6 py-4 lg:w-45.75 lg:h-14.75 lg:px-12 lg:py-3.5 flex items-center gap-[2.22px] lg:gap-2.5 bg-black rounded-full">
+                    <p className="font-medium text-sm lg:text-base text-white">Learn more</p>
+                </Link>
+            </div>
         </div>
-      </section>
+
+      </div>
 
       <section>
         <ScrollLogoLines />
