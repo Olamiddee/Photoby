@@ -1,4 +1,5 @@
 "use client"
+import { useRef, useEffect } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import SimpleCurtainReveal from "@/components/UI/ExpandableImage"
@@ -9,53 +10,79 @@ import serviceData from "@/data/ServicesData"
 import ServiceCard from "@/components/cards/ServiceCard"
 import NewsCarousel from "@/components/UI/NewsCarousel"
 import Footer from "@/components/Footer"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+
+gsap.registerPlugin(ScrollTrigger)
 const date = new Date()
 const year = date.getFullYear()
 
 const container = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.3 },  
-    },
-  }
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.3 },  
+  },
+}
 
-  const child = {
-    hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" as const } },
-  }
+const child = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" as const } },
+}
 
-  const fadeUpVariant = {
-    hidden: { 
-      opacity: 0,
-      y: 40,          
+const fadeUpVariant = {
+  hidden: { 
+    opacity: 0,
+    y: 40,          
+  },
+  visible: { 
+    opacity: 1,
+    y: 0,
+    transition: { 
+      duration: 0.9,
+      ease: "easeOut" as const,
     },
-    visible: { 
-      opacity: 1,
-      y: 0,
-      transition: { 
-        duration: 0.9,
-        ease: "easeOut" as const,
-      },
-    },
-  }
+  },
+}
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,    
-        delayChildren: 0.2,      
-      },
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,    
+      delayChildren: 0.2,      
     },
-  }
+  },
+}
+
+const logos = [
+  "/logos/FoxHub.svg",
+  "/logos/Goldline.svg",
+  "/logos/Solaytic.svg",
+  "/logos/Earth.svg",
+  "/logos/Ztos.svg",
+  "/logos/Utosia.svg",
+]
 
 export default function Home() {
-  return (
-    <div className="absolute top-2 right-0 left-0 bottom-2 flex flex-col space-y-20 lg:space-y-32">
+  const trackRef = useRef<HTMLDivElement>(null)
+  
+  useEffect(() => {
+    if (!trackRef.current) return
 
-      <div className="translate-y-26 lg:translate-y-32 flex flex-col gap-4 lg:gap-18 px-4 lg:px-10.5">
+    gsap.to(trackRef.current, {
+      xPercent: -50,
+      duration: 20,
+      ease: "none",
+      repeat: -1,
+    })
+  }, [])
+  
+  return (
+    <div className="pt-30 lg:pt-40 flex flex-col gap-10 lg:gap-30">
+
+      <div className="flex flex-col gap-4 lg:gap-8 px-4 lg:px-10.5">
         <div className="flex flex-col gap-4 lg:gap-8 relative">
           
           <div className="flex gap-2">
@@ -73,13 +100,13 @@ export default function Home() {
                   key={word + index}
                   className="inline-block"
                 >
-                  {word}
+                  {word}&nbsp;
                 </motion.span>
               ))}
             </motion.h1>
           </div>
 
-          <div className="flex justify-between items-center">
+          {/* <div className="flex justify-between items-center">
             <div className="flex items-center gap-[7.11px] lg:gap-8">
               <p className="text-xs lg:text-sm font-medium text-black">PHOTOGRAPHY</p>
               <div className="w-[40.67px] border-[0.22px] lg:w-45.75 lg:border border-black" />
@@ -100,7 +127,7 @@ export default function Home() {
 
           <div className="absolute right-0 bottom-21.75 hidden lg:flex">
             <p className="text-[#000000] text-[196px] font-medium opacity-5 leading-0">{year}</p> 
-          </div>
+          </div> */}
 
         </div>
 
@@ -112,7 +139,7 @@ export default function Home() {
         />
       </div>
 
-      <div className="flex flex-col gap-8 lg:gap-17.75">
+      <div className="flex flex-col gap-8 lg:gap-17.75 px-4 lg:px-10.5">
 
         <div className="flex items-center justify-between">
 
@@ -178,83 +205,97 @@ export default function Home() {
 
       </div>
 
-      <section>
-        <ScrollLogoLines />
-      </section>
+      <div className="overflow-hidden w-full px-4 lg:px-10.5">
+          <div
+              ref={trackRef}
+              className="flex w-max gap-12 lg:h-12.75 items-center"
+          >
+              {[...logos, ...logos].map((logo, i) => (
+              <img
+                  key={i}
+                  src={logo}
+                  className="h-12 shrink-0"
+              />
+              ))}
+          </div>
+      </div>
 
-      <section className="translate-y-20 lg:translate-y-32 px-4 lg:px-10.5">
-        <div className="w-full border border-black" />
-      </section>
+      <div className="flex flex-col gap-20 px-4 lg:px-10.5">
+        <div className="w-full border border-black hidden lg:flex" />
 
-      <section className="flex flex-col gap-8 lg:gap-16 translate-y-20 lg:translate-y-32 px-4 lg:px-10.5">
+        <div className="flex flex-col lg:gap-16">
 
-        <div className="flex flex-col gap-8 lg:gap-12 mx-auto">
+          <div className="flex flex-col gap-8 lg:gap-16">
 
-          <div className="flex items-center justify-between">
-            <div className="flex gap-2 lg:gap-4 items-center">
-              <div className="w-2.5 h-2.5 py-1.25 lg:w-4 lg:h-4 bg-black rounded-full" />
+            <div className="flex items-center justify-between">
 
-              <motion.h1
-                variants={container}
-                initial="hidden"
-                whileInView="visible"      
-                viewport={{ once: true }}
-                className="uppercase font-bold lg:font-semibold text-lg lg:text-[32px] text-black"
-              >
-                {"Services".split(" ").map((word, index) => (
-                  <motion.span
-                    variants={child}
-                    key={word + index}
-                    className="inline-block"
+              <div className="flex gap-2 lg:gap-4 items-center">
+                  <div className="w-2.5 h-2.5 py-1.25 lg:w-4 lg:h-4 bg-black rounded-full" />
+
+                  <motion.h1
+                      variants={container}
+                      initial="hidden"
+                      whileInView="visible"      
+                      viewport={{ once: true }}
+                      className="uppercase font-bold lg:font-semibold text-lg lg:text-[32px] text-black"
                   >
-                    {word}
-                  </motion.span>
+                      {"Services".split(" ").map((word, index) => (
+                          <motion.span
+                              variants={child}
+                              key={word + index}
+                              className="inline-block"
+                          >
+                              {word}&nbsp;
+                          </motion.span>
+                      ))}
+                  </motion.h1>
+              </div>
+
+              <div className="flex items-center justify-center gap-[5.33px] lg:gap-6">
+                  <Link href="/services" className="flex items-center gap-[3.56px] lg:gap-4">
+                      <span className="flex font-semibold text-xs lg:text-sm">Explore services</span>
+                      <Icon icon="solar:arrow-right-outline"  className="w-4 h-4 lg:w-6 lg:h-6" />
+                  </Link>
+
+                  <p className="font-semibold text-lg lg:text-[32px] text-black">(1.2)</p>
+              </div>
+
+            </div>
+
+            <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }} 
+                className="grid lg:grid-cols-3 gap-8 lg:gap-6"
+            >
+                {serviceData.map((service, index) => (
+                    <ServiceCard
+                        key={index}
+                        src={service.serviceIcon}
+                        serviceName={service.serviceName}
+                        content={service.content}
+                    />
                 ))}
-              </motion.h1>
+            </motion.div>
+
+            <div className="">
+                <SimpleCurtainReveal 
+                src={"/images/serviceImage.svg"}
+                alt={"photoby_service_image"}
+                width="w-full"
+                height="h-[256px] lg:h-[680px]"
+                />
             </div>
 
-            <div className="flex items-center gap-[5.33px] lg:gap-6">
-              <Link href="/services" className="flex items-center gap-[3.56px] lg:gap-4">
-                <span className="flex font-semibold text-sm">Explore services</span>
-                <Icon icon="solar:arrow-right-outline"  className="w-4 h-4 lg:w-6 lg:h-6" />
-              </Link>
-
-              <p className="font-semibold text-lg lg:text-[32px] text-black">(1.2)</p>
-            </div>
           </div>
 
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }} 
-            className="grid space-y-8 md:grid-cols-2 lg:grid-cols-3 md:gap-6 md:space-y-0 mx-auto"
-          >
-            {serviceData.map((service, index) => (
-              <ServiceCard
-                key={index}
-                src={service.serviceIcon}
-                serviceName={service.serviceName}
-                content={service.content}
-              />
-            ))}
-          </motion.div>
-
         </div>
 
-        <div>
-          <SimpleCurtainReveal 
-            src={"/images/serviceImage.svg"}
-            alt={"photoby_service_image"}
-            width="w-full"
-            height="h-[256px] lg:h-[680px]"
-          />
-        </div>
+        <div className="w-full border border-black" />
+      </div>
 
-        <div className="w-full border border-black my-5 lg:my-10 " />
-      </section>
-
-      <section className="flex flex-col gap-8 lg:gap-16 translate-y-12 lg:translate-y-32 px-4 lg:px-10.5">
+      <section className="flex flex-col gap-8 lg:gap-16 px-4 lg:px-10.5">
         <div className="flex flex-col gap-8 lg:gap-12">
           <div className="flex items-center justify-between">
             <div className="flex gap-2 lg:gap-4 items-center">
@@ -273,7 +314,7 @@ export default function Home() {
                     key={word + index}
                     className="inline-block"
                   >
-                    {word}
+                    {word}&nbsp;
                   </motion.span>
                 ))}
               </motion.h1>
@@ -288,9 +329,7 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="mt-10 lg:mt-20">
-        <Footer />
-      </div>
+      <Footer />
     </div>
   )
 }
