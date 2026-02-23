@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence, Variants } from "framer-motion"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -41,6 +41,17 @@ export default function MobileMenu() {
 
   const toggleMenu = () => setIsOpen(!isOpen)
   const handleLinkClick = () => setIsOpen(false)
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = ""
+    }
+    return () => {
+      document.body.style.overflow = ""
+    }
+  }, [isOpen])
 
   return (
     <>
@@ -104,7 +115,7 @@ export default function MobileMenu() {
             animate="open"
             exit="closed"
             variants={menuVariants}
-            className="fixed inset-0 z-40 md:hidden bg-white/95 dark:bg-gray-950/95 backdrop-blur-lg pt-20 px-6"
+            className="fixed inset-0 z-40 md:hidden bg-black/40 backdrop-blur-lg pt-20 px-6 h-screen overflow-hidden"
           >
             <nav className="flex flex-col items-center justify-center gap-8 text-xl font-medium">
               {navLinks.map((link, i) => {

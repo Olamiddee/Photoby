@@ -100,7 +100,7 @@ export default function Page() {
     }, [])
 
     return (
-        <div className="py-30 lg:py-40 flex flex-col gap-10 lg:gap-30 pb-100 lg:pb-40 bg-[#F2F2F2]">
+        <div className="pt-30 lg:pt-40 flex flex-col gap-10 lg:gap-30 bg-[#F2F2F2]">
 
             <div className="flex flex-col gap-4 lg:gap-8 px-4 lg:px-10.5">
 
