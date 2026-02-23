@@ -7,6 +7,7 @@ import NewsDataCard from '../cards/NewsDataCard'
 import { NewsData } from '@/data/NewsData'
 
 export default function NewsCarousel() {
+  const [isMounted, setIsMounted] = useState(false)
   const [cardsToShow, setCardsToShow] = useState(1)
   const x = useMotionValue(0)
   const [scope, animate] = useAnimate()
@@ -15,36 +16,52 @@ export default function NewsCarousel() {
   const [canGoPrev, setCanGoPrev] = useState(false)
   const [canGoNext, setCanGoNext] = useState(true)
 
+  const [slideStep, setSlideStep] = useState(0)
+
   useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (!isMounted) return
+
     const update = () => {
       setCardsToShow(window.innerWidth >= 768 ? 3 : 1)
     }
+
     update()
     window.addEventListener('resize', update)
     return () => window.removeEventListener('resize', update)
-  }, [])
+  }, [isMounted])
 
-  
-  const [slideStep, setSlideStep] = useState(0)
   useEffect(() => {
-    if (trackRef.current?.children?.[0]) {
-      const card = trackRef.current.children[0] as HTMLElement
-      const gapPx = 24 
-      setSlideStep(card.offsetWidth + gapPx)
-    }
-  }, [cardsToShow, NewsData.length])
+    if (!isMounted || !trackRef.current?.children?.[0]) return
 
-  const totalWidth = slideStep * NewsData.length - 24 
-  const maxX = -(totalWidth - window.innerWidth + 48) 
+    const card = trackRef.current.children[0] as HTMLElement
+    const gapPx = 24
+    setSlideStep(card.offsetWidth + gapPx)
+  }, [isMounted, cardsToShow, NewsData.length])
+
+  // ────────────────────────────────────────────────
+  //  All window-dependent values must be guarded
+  // ────────────────────────────────────────────────
+  const totalWidth = slideStep * NewsData.length - 24
+
+  const maxX = isMounted
+    ? -(totalWidth - window.innerWidth + 48)
+    : 0   // safe fallback during SSR (won't be used anyway)
 
   useMotionValueEvent(x, 'change', (latest) => {
+    if (!isMounted) return
     setCanGoPrev(latest < -10)
     setCanGoNext(latest > maxX + 10)
   })
 
   const paginate = (direction: number) => {
+    if (!isMounted) return
+
     const current = x.get()
-    const delta = direction * -slideStep  
+    const delta = direction * -slideStep
     let target = current + delta
 
     target = Math.max(maxX, Math.min(0, target))
@@ -86,7 +103,7 @@ export default function NewsCarousel() {
 
       <div className="mt-8 flex items-center gap-4 justify-center md:justify-start">
         <button
-          onClick={() => paginate(-1)} 
+          onClick={() => paginate(-1)}
           disabled={!canGoPrev}
           className={`cursor-pointer flex items-center justify-center w-12 h-12 rounded-full border-2 border-black transition-all ${
             canGoPrev
